@@ -12,3 +12,26 @@ img{
     text-decoration: none;
     color:black;
 }
+
+.negro{
+    color:rgb(27, 209, 237);
+    background-color:rgb(114, 113, 114);
+}
+
+.blanco{
+    color:black;
+    background-color:white;
+}
+
+.small-letras{
+    font-size: 8px;
+}
+
+.medium-letras{
+    font-size: 12px;
+}
+
+.large-letras{
+    font-size: 16px;
+}
+
