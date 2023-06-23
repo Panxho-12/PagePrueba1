@@ -88,10 +88,11 @@
             <div class="container">
                 <h1 class="title">Contactate con Nosotros</h1>
                     <form action="" class="form">
-                        <input class="input" type="text" id="nombre" placeholder="Nombre y Apellido"><br>
-                        <input class="input" type="email" id="email" placeholder="Ingrese su email"><br>
+                        <input class="input" type="text" id="nombre" placeholder="Nombre y Apellido" required><br>
+                        <input class="input" type="email" id="email" placeholder="Ingrese su email" required><br>
                         <input class="input" type="number" id="telefono" placeholder="Ingrese su número telefónico"><br>
-                        <input type="password" id="pwd" placeholder="Ingrese ingrediente secretos"><br>
+                        <input type="password" id="pwd" placeholder="Ingrese ingrediente secretos" required><br>
+                        <input type="number" id="cantidad" min="1" max="100" placeholder="N° Pan"><br>
                         <input type="date" id="fecha" value="2023-05-23" min="1990-01-01" max="2023-12-31"><br>
                         <input type="radio" id="hombre" name="genero"value="Hombre">
                         <label for="hombre">Hombre</label>
