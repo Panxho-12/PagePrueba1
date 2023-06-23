@@ -160,6 +160,8 @@ var cargarTabla = (listadoNuevo)=>{
     // aqui comienza las funcionalidades de editar y eliminar botones que cada uno tiene su ID para despues interactuar con ellos
     // se obtiene el valor de los elementos al igual que el de los checked para despues crear el boton Editar
     // al igual que mas abajo se repite el mismo paso que recien solo que ahora se agrega el boton Eliminar
+    // los dos botones tienen un EventListener lo que significa que estan atentos a cuando el usuario les da click
+    // hacen lo que se les ordene que en este caso seria eliminar o editar
     for (let i = 0; i < listadoNuevo.length; i++) {
         var eBtn = document.getElementById("btnEditar"+i);
         var eBtn2 = document.getElementById("btnEliminar"+i);
@@ -204,6 +206,8 @@ var cargarTabla = (listadoNuevo)=>{
 
 
 var  datos = ()=> {
+    // la funcion de datos es la que se encarga de recolectar todos los datos que son ingresados al form
+    // cada una tiene el elemento con un getElementById("") para recuperar lo que el usuario escriba dentro del campo
     let eNombre= document.getElementById("nombre");
     let nombre= eNombre.value;
     console.log(nombre)
@@ -243,6 +247,7 @@ var  datos = ()=> {
 
 
 var registro = () =>{
+    
     let eNombre = document.getElementById("nombre")
     let nombre = eNombre.value;
 
