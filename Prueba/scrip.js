@@ -80,6 +80,7 @@ var modificar = (listadoNuevo)=>{
     let eMujer= document.getElementById("mujer")
     let eBinario= document.getElementById("nobinario")
     let eCantidad= document.getElementById("cantidad")
+    let eTime= document.getElementById("hora")
     let eBtnEditarUp = document.getElementById('btnEditar')
 
 
@@ -89,6 +90,7 @@ var modificar = (listadoNuevo)=>{
     let pdw= ePwd.value;
     let date= eDate.value;
     let cantidad= eCantidad.value;
+    let time= eTime.value;
     let hombre= eHombre.checked;
     let mujer= eMujer.checked;
     let binario= eBinario.checked;
@@ -103,6 +105,7 @@ var modificar = (listadoNuevo)=>{
     listadoNuevo[indice].mujer = mujer;
     listadoNuevo[indice].binario = binario;
     listadoNuevo[indice].cantidad = cantidad;
+    listadoNuevo[indice].tiempo = time
     localStorage.setItem('personas',JSON.stringify(listadoNuevo));
     cargarTabla(listadoNuevo)
 }
@@ -134,10 +137,11 @@ var cargarTabla = (listadoNuevo)=>{
     let eMujer= document.getElementById("mujer")
     let eBinario= document.getElementById("nobinario")
     let eCantidad= document.getElementById("cantidad")
+    let eTime= document.getElementById("hora")
     // aqui se comienza con la construccion de la tabla que se sera cargada dentro de la pagina
     // ademas se agregan los elementos que despues seran guardados en el localStorage
     render = "<table>"
-    render+= "<tr><th>Nombre</th><th>Email</th><th>Telefono</th><th>Contraseña</th><th>Fecha</th><th>Genero</th><th>Cantidad</th><th>Accion</th></tr>"
+    render+= "<tr><th>Nombre</th><th>Email</th><th>Telefono</th><th>Contraseña</th><th>Fecha</th><th>Genero</th><th>Cantidad</th><th>Hora</th><th>Accion</th></tr>"
     for (let i = 0; i < listadoNuevo.length; i++) {
         const element = listadoNuevo [i];
         render+="<tr>"
@@ -148,6 +152,7 @@ var cargarTabla = (listadoNuevo)=>{
         render+="<td>"+element.fecha+"</td>"
         render+="<td>"+element.genero+"</td>"
         render+="<td>"+element.cantidad+"</td>"
+        render+="<td>"+element.tiempo+"</td>"
         render+="<td>"
         render+="<button id='btnEditar"+i+"'>Editar</button>"
         render+="<button id='btnEliminar"+i+"'>Eliminar</button>"
@@ -176,6 +181,7 @@ var cargarTabla = (listadoNuevo)=>{
             eMujer.checked = element.mujer
             eBinario.checked = element.binario
             eCantidad.value = element.cantidad
+            eTime.value = element.time
             let sEditar = "<button type='button' id='btnEditar' value='"+i+"'>Editar</button>";
 
             let contenedorBoton = document.getElementById('contenedorBtnExtra');
@@ -193,6 +199,7 @@ var cargarTabla = (listadoNuevo)=>{
             eMujer.checked = element.mujer
             eBinario.checked = element.binario
             eCantidad.value = element.cantidad
+            eTime.value = element.time
             let sEliminar = "<button type='button' id='btnEliminar' value='"+i+"'>Eliminar</button>";
 
             let contenedorBoton = document.getElementById('contenedorBtnExtra');
@@ -243,11 +250,16 @@ var  datos = ()=> {
     let eCantidad = document.getElementById("cantidad")
     let cantidad = eCantidad.value;
     console.log(cantidad)
+
+    let eTime= document.getElementById("hora");
+    let time= eTime.value;
+    console.log(time)
 }
 
 
 var registro = () =>{
-    
+    // la funcion de registro es la que se encarga de registrar todos los datos que son ingresados al form
+    // cada una tiene el elemento con un getElementById("") para recuperar lo que el usuario escriba dentro del campo
     let eNombre = document.getElementById("nombre")
     let nombre = eNombre.value;
 
@@ -276,7 +288,15 @@ var registro = () =>{
     let eCantidad = document.getElementById("cantidad")
     let cantidad = eCantidad.value;
 
-      // Contiene el genero 
+    let eTime= document.getElementById("hora");
+    let time= eTime.value;
+
+      // Contiene el genero
+      // lo que hace esta condicion es que se crea una varible vacia que despues es ocupada en un if
+      // lo que se encarga de hacer ese if es saber el radio que presiono el usuario y saber el genero
+      // para ello se pregunta si el radio de hombre es == a true, si eso se cumple se guarda en la variable de sexo
+      // si eso no se cumple pasa abajo y se pregunta si mujer es == true, si se cumple se guarda en la variables
+      // por ultimo si no marco ninguna de las dos opcion, su sexo es No Binario
       var sexo = ""
     
       if (hombre==true){
@@ -287,22 +307,31 @@ var registro = () =>{
       }
       else{sexo = "No Binario"}
 
-
+    // lo que hacen estas dos varibles es que la primera variable obtiene los datos del localStogare
+    // luego de eso es transformada a JSON.parse para que JS pueda analisas los datos que vienen como JSON 
     let listadoIngreso = localStorage.getItem('personas')
     let listadoAntiguo = JSON.parse(listadoIngreso);
+    // la siguiente linea pregunta si el listadoAntiguo es == null se le agregara el listado a la variable listadoNuevo
+    // ya que esa variable tendria los datos
     if (listadoAntiguo==null){
-        let ingreso = {"id":0,"nombre":nombre,"email":mail,"telefono":phono,"password":pwd,"fecha":date,"genero":sexo,"cantidad":cantidad}
+        let ingreso = {"id":0,"nombre":nombre,"email":mail,"telefono":phono,"password":pwd,"fecha":date,"genero":sexo,"cantidad":cantidad,"tiempo":time}
         listadoNuevo = [ingreso]
     }else{
-        let ingreso = {"id":listadoAntiguo.length,"nombre":nombre,"email":mail,"telefono":phono,"password":pwd,"fecha":date,"genero":sexo,"cantidad":cantidad}
+    // pero por el contrario si el listado tiene datos dentro lo que se hace es desarmar el listadoAntiguo
+    // y ingresarle los datos nuevamente, esto no cambiaria la estructura del listado ni nada, solo se agregaria 
+    // un nuevo listado 
+        let ingreso = {"id":listadoAntiguo.length,"nombre":nombre,"email":mail,"telefono":phono,"password":pwd,"fecha":date,"genero":sexo,"cantidad":cantidad,"tiempo":time}
         listadoNuevo = [...listadoAntiguo,ingreso]
     }
+    // por ultimo los datos son tranformados de JS a JSON para que puedan ser visibles dentro de la pagina y ser
+    // manipulados
     localStorage.setItem('personas',JSON.stringify(listadoNuevo))
-
     cargarTabla(listadoNuevo)
 }
 
 var cargarDatos = ()=>{
+    // tiene la funcion de cargar los datos dentro de la pagina apenas esta se inicie si es que la tabla tiene datos
+    // dentro de ella
     let listadoPersonas = localStorage.getItem('personas');
     let listadoAntiguo = JSON.parse(listadoPersonas);
     cargarTabla(listadoAntiguo)
